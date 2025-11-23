@@ -1,24 +1,35 @@
-public class HtmlStatement extends Statement {
+public class HtmlStatement {
 
-    @Override
-    protected String headerString(Customer aCustomer) {
+    public String value(Customer aCustomer) {
+        String result = headerString(aCustomer);
+
+        Enumeration rentals = aCustomer.getRentals();
+        while (rentals.hasMoreElements()) {
+            Rental each = (Rental) rentals.nextElement();
+            result += eachRentalString(each);
+        }
+
+        result += footerString(aCustomer);
+
+        return result;
+    }
+
+    private String headerString(Customer aCustomer) {
         return "<H1>Rentals for <EM>" + aCustomer.getName() +
-               "</EM></H1><P>\n";
+                "</EM></H1><P>\n";
     }
 
-    @Override
-    protected String eachRentalString(Rental rental) {
+    private String eachRentalString(Rental rental) {
         return rental.getMovie().getTitle() + ": " +
-               rental.getCharge() + "<BR>\n";
+                rental.getCharge() + "<BR>\n";
     }
 
-    @Override
-    protected String footerString(Customer aCustomer) {
+    private String footerString(Customer aCustomer) {
         String result = "<P>You owe <EM>" + aCustomer.getTotalCharge() +
-                        "</EM><P>\n";
+                "</EM><P>\n";
         result += "On this rental you earned <EM>" +
-                  aCustomer.getTotalFrequentRenterPoints() +
-                  "</EM> frequent renter points<P>";
+                aCustomer.getTotalFrequentRenterPoints() +
+                "</EM> frequent renter points<P>";
         return result;
     }
 }
