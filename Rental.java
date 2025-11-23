@@ -15,7 +15,7 @@ public class Rental {
    public Movie getMovie() {
       return _movie;
    }
-=
+
    public double getCharge() {
        double thisAmount = 0;
 
@@ -38,5 +38,13 @@ public class Rental {
        }
 
        return thisAmount;
+   }
+
+   public int getFrequentRenterPoints() {
+       if ((_movie.getPriceCode() == Movie.NEW_RELEASE) && _daysRented > 1) {
+           return 2;
+       } else {
+           return 1;
+       }
    }
 }
